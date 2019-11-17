@@ -1,0 +1,14 @@
+<div class="navbar">
+	<ul>
+		<li class="dropdown" *ngFor="let cat of categories">
+			<a class="dropbtn">{{cat.name}}</a>
+			<div class="dropdown-content">
+				<div *ngFor="let sub of subCategories">
+					<div *ngIf="sub.parentId == cat.id">
+						<a routerLink="subcategory-overview/{{sub.uid}}">{{sub.name}}</a>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

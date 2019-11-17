@@ -1,0 +1,292 @@
+/* Standard settings */
+body {
+  margin: 0;
+  font-family: Arial;
+  font-size: 13px;
+  background-color: white;
+}
+
+h1 {
+  display: inline-block;
+	font-size: 25px;
+	font-weight: 600;
+  text-align: left;
+  padding: 0 10px;
+}
+
+h2 {
+  display: inline-block;
+  font-size: 18px;
+}
+
+h3 {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.0em;
+  color: grey;
+  padding: 0 10px;
+}
+
+a {
+  color: black;
+}
+
+img:focus {
+  outline: none;
+}
+
+.center {
+	text-align: center;
+}
+
+
+/* Path hierarchies - "Category > Sub-category" */
+.path a {
+  color: grey;
+  text-decoration: none;
+}
+
+.path h2 {
+  display: inline-block;
+  font-size: 16px;
+  color: grey;
+  padding: 0 10px;
+}
+
+
+/* Form inputs */
+input, select, textarea {
+  border: 1px solid grey;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid grey;
+}
+
+input {
+  width: 245px;
+  height: 23px;
+  padding: 2px;
+}
+input[type=file], input[type=checkbox], input[type=radio], input[type=range] {
+  border: 0;
+  outline: 0;
+  width: auto;
+}
+input[type=checkbox] {
+  width: 18px;
+}
+input[type=range] {
+  width: 250px;
+}
+
+
+select {
+  width: 256px;
+  height: 28px;
+}
+select:disabled {
+  background-color: #f0f0f0;
+}
+select option:hover {
+  box-shadow: inset 20px 20px grey;
+}
+
+textarea {
+  width: 245px;
+  height: 150px;
+  padding: 2px;
+  resize: none;
+  font-family: Arial;
+}
+
+button {
+  height: 28px;
+}
+button.icon {
+  margin: 5px 5px 0 0;
+  height: auto;
+  outline: none;
+  border: 0;
+  background-color: white;
+  cursor: pointer;
+  transform: scale(1.5);
+}
+button.icon:hover {
+  transform: scale(2);
+  /* color: rgb(205, 241, 250); */
+}
+.cart {
+  transform: scale(1.2);
+}
+
+
+/* Add, Edit & Details tables and framing */
+div.add, div.edit {
+  border: 1px solid grey;
+  width: 600px;
+  margin: 20px;
+  /* overflow-x:auto; */
+}
+
+.add table, .edit table {
+  border-spacing: 15px;
+}
+
+.add td, .edit td {
+  vertical-align: top;
+  text-align: left;
+}
+
+
+/* Products */
+section.products {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  display: block;
+  width: 235px;
+  padding: 10px 2%;
+  margin: 10px;
+  text-align: center;
+}
+
+.product-image {
+  width: 225px;
+  height: 150px;
+  line-height: 290px;
+}
+
+.product-image img {
+  cursor: pointer;
+  max-height: 150px;
+  max-width: 225px;
+}
+
+.product-info {
+  margin-top: 10px;
+  padding: 0px;
+  text-align: center;
+}
+.product-info .name {
+  font-size: 13px;
+  margin: 15px 0;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-info .price {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+.deal-regular-price {
+  font-size: 12px;
+  margin: 5px;
+  text-decoration: line-through;
+}
+.deal-price {
+  color: rgb(212, 30, 43);
+  font-weight: bold;
+}
+
+.product-info .deal-regular-price {
+  text-indent: 50px;
+  font-weight: bold;
+}
+
+.product-info .deal-price {
+  font-size: 15px;
+  margin: 5px 0 15px 0;
+}
+
+
+/* Validity */
+.ng-valid[required], .ng-valid.required {
+  border-left: 5px solid #42A948;
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442;
+}
+
+input.optional {
+  width: 250px;
+}
+
+
+/* Progress bar */
+.progress {
+  display: -ms-flexbox;
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  font-size: 0.75rem;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+}
+
+.progress-bar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: grey;
+  transition: width 0.6s ease;
+}
+
+
+
+/* Pagination */
+.pagination {
+	display: inline-block;
+}
+
+.pagination button {
+	color: black;
+	float: left;
+	padding: 6px 14px 8px 14px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+	background-color: #dbdbdb;
+  cursor:pointer;
+}
+.pagination button:disabled, .pagination button:hover:disabled {
+  background-color: #eee;
+  color: #ddd;
+  cursor:default;
+}
+.pagination button:hover {
+  background-color: #c6c6c6;
+  color: white;
+}
+.pagination button:focus {
+  outline: 0;
+}
+
+.pagination a {
+  float:left;
+  margin: 0 5px;
+	padding: 6px 12px 2px 12px;
+	background-color:#AFDDEA;
+	color: black;
+	border: 2.5px solid #AFDDEA;
+	border-radius: 2.5px;
+}
+
+.productsPerPage {
+  font-size: 10px;
+}

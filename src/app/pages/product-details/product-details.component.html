@@ -1,0 +1,233 @@
+<div *ngIf="currentProduct else showFourOhFour">
+  <div class="path">
+    <h2>{{ catName }} &nbsp; &gt; &nbsp;
+      <a routerLink="/subcategory-overview/{{currentProduct.parentId}}"> {{subCatName}}</a>
+    </h2>
+  </div>
+
+
+  <!-- ADMIN VIEW -->
+  <div *ngIf="currentUser && currentUser.admin else customerView" align="center">
+    <div class="product-img" *ngIf="currentProduct.fileUrl && currentProduct.isImage else showGenericImg">
+      <img src="{{currentProduct.fileUrl}}">
+    </div>
+    <ng-template #showGenericImg>
+      <div class="product-img">
+        <img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811">
+      </div>
+    </ng-template>
+
+    <div *ngIf="(currentProduct.fileUrl && currentProduct.isImage == false)">
+      <a href="{{currentProduct.fileUrl}}"> Download product file</a>
+    </div>
+    <br>
+    <div class="edit">
+      <table>
+        <tr>
+          <th>
+            <h2>Edit Product</h2>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            Title of Product
+          </td>
+          <td>
+            <input type="text" autofocus minlength="4" required [(ngModel)]="currentProduct.name" name="name">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Belongs to Main Category
+          </td>
+          <td>
+            <select required [(ngModel)]="catId" (change)="unsetParentId()" name="cat">
+              <option *ngFor="let cat of allCategories | async" [value]="cat.id">{{cat.name}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Belongs to Sub-Category
+          </td>
+          <td>
+            <select required [(ngModel)]="currentProduct.parentId" name="subcat">
+              <ng-container *ngFor="let sub of allSubCategories | async">
+                <option *ngIf="sub.parentId == catId" [value]="sub.uid">{{sub.name}}</option>
+              </ng-container>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Description
+          </td>
+          <td>
+            <textarea required [(ngModel)]="currentProduct.description" name="desc"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Quantity in stock
+          </td>
+          <td>
+            <input type="number" min="0" required oninput="validity.valid||(value='');" [(ngModel)]="currentProduct.quantity" name="quantity">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Price (SEK)
+          </td>
+          <td>
+            <input type="number" min="0" required [disabled]="currentProduct.deal" oninput="validity.valid||(value='');" [(ngModel)]="currentProduct.price"
+              name="price">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Deal of the day
+          </td>
+          <td>
+            <input type="checkbox" [(ngModel)]="currentProduct.deal">
+          </td>
+        </tr>
+        <tr *ngIf="currentProduct.deal">
+          <td>
+            Deal of the day price
+          </td>
+          <td>
+            <input type="number" min="0" [max]="currentProduct.price" required oninput="validity.valid||(value='');" [(ngModel)]="currentProduct.dprice"
+              name="dprice">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            New file (replaces the old one)
+          </td>
+          <td>
+            <input type="file" (change)="selectFile($event)" [(ngModel)]="file" name="f">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div *ngIf="currentFileUpload" class="progress">
+              <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{progress.percentage}}" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{width:progress.percentage+'%'}">
+                {{progress.percentage}}%
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button type="submit" (click)="deleteProduct()">Delete Product</button>
+          </td>
+          <td>
+            <button type="submit" (click)="updateProduct()">Update Product</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- CUSTOMER VIEW -->
+<ng-template #customerView>
+  <div align="center">
+    <div class="product-img" *ngIf="currentProduct.fileUrl && currentProduct.isImage else showGenericImg">
+      <img src="{{currentProduct.fileUrl}}">
+    </div>
+    <ng-template #showGenericImg>
+      <div class="product-img">
+        <img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811">
+      </div>
+    </ng-template>
+    <div *ngIf="(currentProduct.fileUrl && currentProduct.isImage == false)">
+      <a href="{{currentProduct.fileUrl}}"> Download product file</a>
+    </div>
+
+    <br>
+    <div class="edit">
+      <table>
+        <tr>
+          <th colspan="2">
+            <h2>Product details</h2>
+          </th>
+        </tr>
+        <tr>
+          <td width="100">
+            Title of Product
+          </td>
+          <td>
+            {{currentProduct.name}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Description
+          </td>
+          <td>
+            {{currentProduct.description}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Price
+          </td>
+          <td>
+            <div *ngIf="currentProduct.deal" class="deal-price">{{currentProduct.dprice}} SEK</div>
+            <div [class.deal-regular-price]="currentProduct.deal">{{currentProduct.price}} SEK</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Quantity in stock
+          </td>
+          <td>
+            {{currentProduct.quantity}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Rate this product
+          </td>
+          <td>
+            <div class="rating">
+              <i class="fa fa-thumbs-up fa-2x like" [class.inactive]="!currentUser" [class.active]="voted(currentProduct.id) == 1" (click)="addALike(currentProduct.id, currentProduct.like, currentProduct.dislike)"></i>
+              {{ getVote(currentProduct.like) }}
+              <i class="fa fa-thumbs-down fa-2x dislike" [class.inactive]="!currentUser" [class.active]="voted(currentProduct.id) == -1"
+                (click)="addADislike(currentProduct.id, currentProduct.like, currentProduct.dislike)"></i>
+              {{ getVote(currentProduct.dislike) }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div *ngIf="currentUser else showLoginToAddToBasket">
+              <div *ngIf="currentProduct.quantity > 0 else showOutOfStock">
+                <button (click)="afService.addToBasket(currentProduct.id, 1)">
+                  <i class="fa fa-cart-plus cart"></i> Add to basket
+                </button>
+              </div>
+              <ng-template #showOutOfStock>
+                <button disabled>Out of stock</button>
+              </ng-template>
+            </div>
+            <ng-template #showLoginToAddToBasket>
+              <button disabled>Log in to shop</button>
+            </ng-template>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- 404 -->
+<ng-template #showFourOhFour>
+  Four, oh four: Page not found
+</ng-template>

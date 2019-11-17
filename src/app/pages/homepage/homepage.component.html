@@ -1,0 +1,92 @@
+<!-- Deal of the day products -->
+<section class="deals" *ngIf="dealProducts && dealProducts.length">
+  <img class="deals-img" src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fdod2.jpg?alt=media&token=8e59927a-8f57-497e-929a-970524270b21"
+    alt="Deals">
+    <section class="dealsofday-products">
+    <div class="product-card deals" *ngFor="let product of dealProducts">
+      <div class="product-image" *ngIf="product.fileUrl && product.isImage else showGenericImg">
+        <a [routerLink]="['/product-details/' + product.id]">
+          <img src="{{product.fileUrl}}">
+        </a>
+      </div>
+      <ng-template #showGenericImg class="product-image">
+        <div class="product-image">
+          <a [routerLink]="['/product-details/' + product.id]">
+            <img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811">
+          </a>
+        </div>
+      </ng-template>
+      <div class="product-info">
+        <p class="name">{{product.name}}</p>
+        <div class="price">
+          <div class="deal-regular-price">{{product.price}} SEK</div>
+          <div class="deal-price">{{product.dprice}} SEK</div>
+        </div>
+        <div *ngIf="currentUser && !currentUser.admin">
+          <div *ngIf="product.quantity > 0 else showOutOfStock">
+            <button (click)="afService.addToBasket(product.id, 1)">
+              <i class="fa fa-cart-plus cart"></i> Add to basket
+            </button>
+          </div>
+          <ng-template #showOutOfStock>
+            <button disabled>Out of stock</button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- can't get it to work without including the deal products -->
+<!-- Regular products -->
+<h2 *ngIf="dealProducts && dealProducts.length">You may also like</h2>
+
+<section class="products" *ngIf="paginatedProducts && paginatedProducts.length">
+  <div class="product-card" *ngFor="let product of paginatedProducts">
+    <div class="product-image" *ngIf="product.fileUrl && product.isImage else showGenericImg">
+      <a [routerLink]="'/product-details/' + product.id">
+        <img src="{{product.fileUrl}}">
+      </a>
+    </div>
+    <ng-template #showGenericImg class="product-image">
+      <div class="product-image">
+        <a [routerLink]="['/product-details/' + product.id]">
+          <img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811">
+        </a>
+      </div>
+    </ng-template>
+    <div class="product-info">
+      <p class="name">{{product.name}}</p>
+      <p class="price">{{product.price}} SEK</p>
+      <!-- {{product.id}} -->
+      <div *ngIf="currentUser && !currentUser.admin else showAdminCounter">
+        <div *ngIf="product.quantity > 0 else showOutOfStock">
+          <button (click)="afService.addToBasket(product.id, 1)">
+            <!-- [disabled]="afService.checkIfAddItemToBasketIsOk(product.id, 1)"-->
+            <i class="fa fa-cart-plus cart"></i> Add to basket
+          </button>
+        </div>
+        <ng-template #showOutOfStock>
+          <button disabled>Out of stock</button>
+        </ng-template>
+      </div>
+      <ng-template #showAdminCounter>
+       <i *ngIf="product.quantity == 0">Out of stock</i>
+       <!-- <i>Qty: {{product.quantity}}</i> -->
+      </ng-template>
+    </div>
+  </div>
+</section>
+
+<!-- Pagination -->
+<div class="center" *ngIf="nonDealProducts && nonDealProducts.length > productsPerPage">
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage == 0">&laquo;</button>
+    <a>{{currentPage + 1}}</a>
+    <button (click)="nextPage()" [disabled]="noMorePagesExists()">&raquo;</button>
+  </div>
+  <br>
+  <span class="productsPerPage">
+    showing {{productsPerPage}} results per page
+  </span>
+</div>

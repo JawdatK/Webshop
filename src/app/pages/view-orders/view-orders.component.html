@@ -1,0 +1,75 @@
+<div *ngIf="user else showNoOrders">
+  <h1>Orders</h1>
+  <h2>Shipped</h2>
+  <table>
+    <tr>
+      <th nowrap width="15%">Order Number</th>
+      <th  width="30%">Date</th>
+      <!-- <th>Shipping Address</th> -->
+      <th width="15%">Quantity</th>
+      <th width="20%">Price</th>
+      <th colspan="2">Status</th>
+    </tr>
+    <ng-container *ngFor="let order of orders">
+      <tr class="orders">
+        <td nowrap>#{{order.id}}</td>
+        <td nowrap>{{order.date}}</td>
+        <!-- <td nowrap>{{order.deliveryAddress.street}}</td> -->
+        <td nowrap>{{order.totalQuantity}} item(s)</td>
+        <td nowrap>{{order.totalPrice}} SEK</td>
+        <td nowrap style="color: green">Shipped</td>
+        <td width="25" style="color:#CCC; font-size:22px" *ngIf="details != order.id" (click)="details = order.id">
+          <i class="fa fa-plus"></i>
+        <td width="25" style="color:#CCC; font-size:22px" *ngIf="details == order.id" (click)="details = -1">
+          <i class="fa fa-minus"></i>
+        </td>
+      </tr>
+
+      <ng-container *ngFor="let b of order.items">
+        <tr class="chosenOrder" *ngIf="details == order.id">
+          <td>
+            <a routerLink="/product-details/{{b.id}}">
+              <img *ngIf="b.imageUrl" src="{{b.imageUrl}}">
+              <img *ngIf="!b.imageUrl" src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811">
+            </a>
+          </td>
+          <td>
+            <a routerLink="/product-details/{{b.id}}">
+              {{b.name}}
+            </a>
+          </td>
+          <!--text-overflow: ellipsis;-->
+          <td>{{b.quantity}}</td>
+          <td>{{b.price * b.quantity}} SEK</td>
+          <td class="addressField" colspan="2" [attr.rowspan]="order.items.length" *ngIf="b.id == order.items[0].id">
+            <h4>Delivery address: </h4>{{order.deliveryAddress.firstName}}
+            <br/> {{order.deliveryAddress.lastName}}
+            <br/> {{order.deliveryAddress.street}}
+            <br/> {{order.deliveryAddress.zip}}
+            <br/> {{order.deliveryAddress.city}}
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </table>
+
+  <!--"Pending" table, hardcoded, shall not contain any data-->
+  <h2>Pending</h2>
+  <table>
+    <tr>
+      <th width="15%">Order Number</th>
+      <th width="30%">Date</th>
+      <th width="15%">Quantity</th>
+      <th width="20%">Price</th>
+      <!-- <th>Shipping Address</th> -->
+      <th>Status</th>
+    </tr>
+    <tr class="orders">
+      <td colspan="5" style="text-align: center">No pending orders</td>
+    </tr>
+  </table>
+</div>
+
+<ng-template #showNoOrders>
+  <p>You must log in to see your orders</p>
+</ng-template>

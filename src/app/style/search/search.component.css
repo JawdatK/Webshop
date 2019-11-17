@@ -1,0 +1,35 @@
+.spacer {
+  /* border: 1px solid purple; */
+  padding: 10px;
+}
+
+.search-container {
+  border: 1px solid grey;
+  width: 400px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.search-container, button {
+  height: 27px;
+}
+
+input[type=text] {
+  outline: none;
+  border: 0;
+  padding: 0px 5px;
+  width: 356px;
+}
+
+button {
+  cursor: default;
+  padding: 0 7px;
+  background: white;
+  font-size: 8px;
+  border: none;
+  border-left: 1px solid grey;
+}
+
+button:hover {
+  background: #eee;
+}

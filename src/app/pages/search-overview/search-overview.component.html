@@ -1,0 +1,61 @@
+<h1>Search results of '{{searchText}}'</h1>
+<span *ngIf="results">
+  <h3 *ngIf="results.length else showZero">showing {{productsPerPage * (currentPage)}} to {{productsPerPage * (currentPage) + paginatedProducts.length}} of a total
+    of {{filteredResult.length}} results</h3> <!-- of {{results.length}} results</h3> --> 
+  <ng-template #showZero>
+    <h3>0 results</h3>
+  </ng-template>
+  <div class="slidecontainer">
+    <h2>Filter by rating: {{sliderValue}} % </h2>
+      <br>
+      0%<input type="range" [(ngModel)]="sliderValue" class="slider"(click)="this.filterProductsByRate(this.sliderValue); this.setPage(this.currentPage);" > 100%
+  </div>
+  <section class="products">
+    <div class="product-card" *ngFor="let product of paginatedProducts">
+      <div class="product-image" *ngIf="product.fileUrl && product.isImage else showGenericImg">
+        <a [routerLink]="['/product-details/' + product.id]">
+          <img src="{{product.fileUrl}}">
+        </a>
+      </div>
+      <ng-template #showGenericImg class="product-image">
+        <div class="product-image">
+          <a [routerLink]="['/product-details/' + product.id]">
+            <img src="http://musclecarevents.org/wp-content/uploads/2016/07/NoImageAvailable.jpg" alt="No image available">
+          </a>
+        </div>
+      </ng-template>
+      <div class="product-info">
+        <p class="name">{{product.name}}</p>
+        <div class="price">
+          <div [class.deal-regular-price]="product.deal">{{product.price}} SEK</div>
+          <div *ngIf="product.deal" class="deal-price">{{product.dprice}} SEK</div>
+        </div>
+        <div class="percent">
+        {{getProductRating(product)}} %   <i class="fa fa-thumbs-o-up"></i>
+        </div>
+        <div *ngIf="currentUser && !currentUser.admin else showLoginToAddToBasket">
+          <div *ngIf="product.quantity > 0 else showOutOfStock">
+            <button (click)="afService.addToBasket(product.id, 1)"><i class="fa fa-cart-plus cart"></i> Add to basket</button>
+          </div>
+          <ng-template #showOutOfStock>
+            <button disabled>Out of stock</button>
+          </ng-template>
+        </div>
+        <ng-template #showLoginToAddToBasket>
+          <!-- Log in to shop -->
+        </ng-template>
+      </div>
+    </div>
+  </section>
+  <div class="center" *ngIf="filteredResult && filteredResult.length > productsPerPage">
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage == 0">&laquo;</button>
+      <a>{{currentPage + 1}}</a>
+      <button (click)="nextPage()" [disabled]="noMorePagesExists()">&raquo;</button>
+    </div>
+    <br>
+    <span class="productsPerPage">
+      showing {{productsPerPage}} results per page
+    </span>
+  </div>
+</span>

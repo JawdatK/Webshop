@@ -1,0 +1,59 @@
+table.basket {
+    width: 75%;
+    border: 1px solid grey;
+    font-weight: bold;
+    font-size: 16px;
+}
+table.disabled {
+    opacity: .3;
+    color: black;
+}
+
+tr {
+    border: 1px solid grey;
+}
+
+tr.total {
+    font-size: 20px;
+}
+
+td {
+    padding: 10px 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+button.quantity {
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    background-color: white;
+    border: 1px solid lightgrey; 
+	border-radius: 3px;
+    font-size: 20px;
+}
+
+button:disabled {
+    cursor: default;
+    color: #DDD;
+}
+button.quantity:focus {
+    outline: 1px solid grey;
+}
+button.remove {
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    font-size: 20px;
+    color: grey;
+}
+button.checkout {
+    font-size: 20px;
+    padding: 8px 25px 30px 25px;
+    color: black;
+}
+a.link {
+    cursor: pointer;
+}

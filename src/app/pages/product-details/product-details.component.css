@@ -1,0 +1,41 @@
+.product-img {
+  padding: 30px;
+}
+
+.product-img img {
+  max-width: 800px;
+  max-height: 300px;
+}
+
+.rating {
+  display: inline-block;
+}
+
+.like,
+.dislike {
+  display: inline-block;
+  cursor: pointer;
+  margin: 0 10px;
+  color: #DDD;
+}
+
+.like:hover,
+.dislike:hover,
+.like.active,
+.dislike.active {
+  color: black;
+}
+
+.like.active,
+.dislike.active {
+  transition: all .2s ease-in-out;
+  transform: scale(1.1);
+}
+
+.like.inactive,
+.dislike.inactive,
+.like.inactive:hover,
+.dislike.inactive:hover {
+  color: #DDD;
+  cursor: default;
+}

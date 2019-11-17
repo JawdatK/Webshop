@@ -1,0 +1,115 @@
+* {
+    box-sizing: border-box;
+}
+
+.header {
+    height: 63px;
+    overflow: hidden;
+}
+
+.header, .navbar {
+    background: rgb(210, 245, 255);
+}
+
+.logo-img {
+  width: 70px;
+  height: 45px;
+  float: left;
+  position: relative;
+  margin: 10px 0 0 15px;
+}
+
+
+.topnavbar img {
+   width: 23px;
+   height: 23px;
+}
+
+.topnavbar ul {
+    font-size: 12px;
+    color: #6b6161;
+    float: right;
+    line-height: 18px;
+    margin: 0;
+}
+
+.topnavbar li {
+    display: inline-block;
+}
+
+.navbar {
+    margin: 0;
+}
+
+.navbar ul {
+  max-height: 44px;
+  list-style-type: none;
+  padding-left: 20px;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.navbar a {
+  font-size: 15px;
+  padding: 14px 40px 11px 40px;
+}
+
+/* Navbar hover colour and dropdown menu background */
+.navbar li a:hover, .topnavbar li:hover, .dropdown:hover .dropbtn, .dropdown-content {
+  background-color: rgb(225, 250, 255);
+}
+
+.navbar li {
+    float: left;
+}
+
+/* Dropdown list from top-navbar*/
+li a, .dropbtn {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+    padding: 15px;
+    display: block;
+    text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown .dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Main column where products will show */
+.main {
+  padding: 20px;
+}
+
+
+.footer {
+   padding: 20px;
+   text-align: center;
+   font-size: 10px;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+    .main, .navbar {
+        flex-direction: column;
+    }
+}

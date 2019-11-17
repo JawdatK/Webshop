@@ -1,0 +1,63 @@
+<div class="header">
+	<a routerLink="/homepage">
+		<img class="logo-img" src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Flogo.png?alt=media&token=61e5417c-9b01-4ed4-9c14-7e91c72cc370"
+		 alt="Logo">
+	</a>
+	<div class="topnavbar">
+		<ul>
+			<li class="dropdown" *ngIf="user && user.admin">
+				<a class="dropbtn">
+					<img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fuser.png?alt=media&token=8eb231c7-1933-4acf-a4e7-bef4628e48e5"
+					 alt="account icon">
+					<br> Admin
+				</a>
+				<div class="dropdown-content">
+					<a routerLink="/addcategory">Add Category</a>
+					<a routerLink="/addproduct">Add Product</a>
+				</div>
+			</li>
+			<li class="dropdown" *ngIf="user && !user.admin">
+				<a class="dropbtn">
+					<img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fuser.png?alt=media&token=8eb231c7-1933-4acf-a4e7-bef4628e48e5"
+					 alt="account icon">
+					<br> Account
+				</a>
+				<div class="dropdown-content">
+					<a routerLink="/profile-page">Profile</a>
+					<a routerLink="/view-orders">View orders</a>
+				</div>
+			</li>
+			<li>
+				<a (click)="this.afService.googleLogOut();" *ngIf="user else showLogin">
+					<img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fgoogle.png?alt=media&token=7f8a286a-7b5b-4755-952a-89e145ed8733"
+					 alt="login/out icon">
+					<br> Logout
+				</a>
+				<ng-template #showLogin>
+					<a (click)="this.afService.googleLogin();">
+						<img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fgoogle.png?alt=media&token=7f8a286a-7b5b-4755-952a-89e145ed8733"
+						 alt="login/out icon">
+						<br> Login
+					</a>
+				</ng-template>
+			</li>
+			<li *ngIf="user && !user.admin" style="position:relative">
+				<a routerLink="/shopping-basket">
+					<img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fcart.png?alt=media&token=4e9e1617-d63c-492c-8dfd-a1e447dc292e"
+					 alt="cart icon">
+					 <br> Shopping Cart
+					<div style="position:absolute; bottom:25px; left:65px; width:25px; height:25px; background-color:white; border:1.5px solid black; border-radius:50%; font-size:14px; font-weight:bold;" *ngIf="nrOfItems > 0">
+						<span style="position:relative; top:2px">{{nrOfItems}}</span>
+					</div>
+				</a>
+			</li>
+			<li>
+				<a (click)="help()">
+					<img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Finfo.png?alt=media&token=c6ba5e87-c43f-4603-a04a-b06b192f938f"
+					 alt="Help" >
+					<br> Help
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

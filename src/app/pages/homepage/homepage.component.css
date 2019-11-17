@@ -1,0 +1,42 @@
+section.deals {
+  background-color: rgb(212, 30, 43);
+  border: 3px solid rgb(92, 1, 1);
+  border-radius: 10px;
+  padding: 10px;
+  margin:0;
+  margin-bottom: 40px;
+  display: flex;
+  flex-wrap: unset;
+}
+section.dealsofday-products {
+  /* border: 2px solid white; */
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  background-color: rgb(212, 30, 43);
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(212, 30, 43);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(92, 1, 1);
+}
+
+
+.dealsofday-products .product-card {
+  background-color: white;
+  border: 3px solid rgb(92, 1, 1);
+  border-radius: 5px;
+}
+
+.deals-img {
+  height: 260px;
+  margin: 10px;
+}

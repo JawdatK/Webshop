@@ -1,0 +1,53 @@
+div {
+    padding: 10px;
+}
+
+table {
+    width:100%;
+    border: 2px solid rgb(175, 174, 174);
+    margin-bottom: 50px;
+}
+
+table th {
+    background-color: rgb(236, 236, 236);
+    color: black;
+
+}
+table, th {
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+.orders td {
+    border-top: 2px solid rgb(175, 174, 174);
+    background-color: #fafafa;
+}
+
+.chosenOrder {
+    border: 2px solid rgb(236, 236, 236);
+    border-left: 2px solid rgb(175, 174, 174);
+    color: grey;
+}
+
+.chosenOrder td {
+    height: 50px;
+}
+
+img {
+    max-height: 50px;
+    max-width: 75px;
+    margin-left: 20px;
+}
+
+.addressField {
+    border-left: 2px solid rgb(236, 236, 236);
+    border-right: 2px solid rgb(175, 174, 174);
+    /* padding: 10px; */
+}
+
+a {
+    text-decoration: none;
+}

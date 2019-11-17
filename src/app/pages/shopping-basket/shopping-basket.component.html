@@ -1,0 +1,197 @@
+<div *ngIf="currentUser else showNotLoggedIn">
+  <div *ngIf="!currentUser.admin else showAdminError">
+    <div *ngIf="basket && basket.length else showEmptyBasket" align="center">
+
+      <!-- Shopping basket -->
+      <table class="basket" [class.disabled]="step2">
+        <ng-container *ngFor="let item of basket">
+          <tr>
+            <ng-container *ngFor="let product of products">
+              <!-- terrible solution-->
+              <ng-container *ngIf="product.id == item.id">
+                <td width="250" align="right">
+                  <a routerLink="/product-details/{{item.id}}">
+                    <div style="height: 150px" *ngIf="product.fileUrl && product.isImage else showGenericImage">
+                      <img style="max-width: 200px; max-height: 150px;" [src]="product.fileUrl">
+                    </div>
+                    <ng-template #showGenericImage>
+                      <img style="max-width: 200px; max-height: 150px" src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811"
+                        alt="No image available">
+                    </ng-template>
+                  </a>
+                </td>
+                <td>
+                  <a routerLink="/product-details/{{item.id}}">{{product.name}}</a>
+                </td>
+                <td style="width:20%" nowrap align="center">
+                  Qty:
+                  <button class="quantity" [disabled]="item.quantity == 0 || step2" (click)="decreaseQ(item.id, item.quantity)">-</button>
+                  {{item.quantity}}
+                  <button class="quantity" [disabled]="item.quantity >= product.quantity || step2" (click)="increaseQ(item.id, item.quantity, product.quantity)">+</button>
+                </td>
+                <td nowrap style="width:90px">
+                  <div *ngIf="product.deal" [class.deal-price]="!step2">{{product.dprice}} SEK</div>
+                  <div [class.deal-regular-price]="product.deal">{{product.price}} SEK</div>
+                </td>
+                <td style="width:100px">
+                  <button class="remove" [disabled]="step2" (click)="deleteItem(item.id, item.quantity, product.price)">
+                    <i class=" fa fa-trash-o"></i>
+                  </button>
+                </td>
+              </ng-container>
+            </ng-container>
+          </tr>
+          <tr>
+            <td colspan="5" style="padding:0">
+              <hr>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Results -->
+        <tr class="total">
+          <td colspan="2" align="right">
+            Total
+          </td>
+          <td width="150" align="center">
+            {{totalQuantity}} item(s)
+          </td>
+          <td colspan="2" width="150">
+            {{totalPrice}} SEK
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3"></td>
+          <td colspan="2">
+            <button class="checkout" [disabled]="step2" (click)="toStep2()">Checkout</button>
+          </td>
+        </tr>
+      </table>
+
+      <br>
+      <!-- Step 2 : enter address -->
+      <div *ngIf="step2" class="add">
+        <table>
+          <tr>
+            <th>
+              <h2>Checkout</h2>
+            </th>
+          </tr>
+          <ng-container *ngIf="addresses.length > 0">
+            <tr>
+              <td>
+                Select address
+              </td>
+              <td>
+                <select [(ngModel)]="currentAddress.id" (change)="setAddress()" name="temp">
+                  <ng-container *ngFor="let address of addresses">
+                    <option [value]="address.id" *ngIf="address.id != currentUser.defaultId">{{address.street}}</option>
+                    <option [value]="address.id" *ngIf="address.id == currentUser.defaultId">[default] {{address.street}}</option>
+                  </ng-container>
+                </select>
+                <br>
+                <br>
+                <button (click)="clearAddress()">New address</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <hr>
+              </td>
+            </tr>
+          </ng-container>
+          <tr>
+            <td>
+              First name *
+            </td>
+            <td>
+              <input type="text" autofocus required minlength="3" maxlength="10" [disabled]="currentAddress.id != null" [(ngModel)]="currentAddress.firstName"
+                name="firstname">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Last name *
+            </td>
+            <td>
+              <input type="text" required minlength="3" [disabled]="currentAddress.id != null" [(ngModel)]="currentAddress.lastName" name="lastname">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Street *
+            </td>
+            <td>
+              <input type="text" required minlength="4" [disabled]="currentAddress.id != null" [(ngModel)]="currentAddress.street" name="street">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Zip Code *
+            </td>
+            <td>
+              <input type="number" min="0" required minlength="3" oninput="validity.valid||(value='');" [disabled]="currentAddress.id != null"
+                [(ngModel)]="currentAddress.zip" name="zipcode">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              City *
+            </td>
+            <td>
+              <input type="text" required minlength="2" [disabled]="currentAddress.id != null" [(ngModel)]="currentAddress.city" name="city">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Phone number
+            </td>
+            <td>
+              <input type="text" minlength="5" [disabled]="currentAddress.id != null" [(ngModel)]="currentAddress.phone" name="phonenr">
+            </td>
+          </tr>
+          <tr *ngIf="currentAddress.id == null">
+            <td>
+              Save address
+            </td>
+            <td>
+              <input type="checkbox" [(ngModel)]="saveAddress" name="save">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <hr>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Payment
+            </td>
+            <td>
+              <input type="radio" checked name="default"> Bill me
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button type="submit" (click)="afService.createOrder(basket, currentAddress, saveAddress)">Complete purchase</button>
+              <button (click)="step2 = false">Cancel</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #showEmptyBasket>
+  Your basket is empty
+</ng-template>
+
+<ng-template #showNotLoggedIn>
+  Log in to view your basket
+</ng-template>
+
+<ng-template #showAdminError>
+  Log in on a regular account to view your basket
+</ng-template>

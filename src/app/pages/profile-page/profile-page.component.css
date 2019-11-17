@@ -1,0 +1,15 @@
+table.addresses {
+  text-align: center;
+  color: grey;
+  padding: 10px 50px;
+  /* width: 500px; */
+}
+
+table.default-address {
+  color: black;
+  border: 1px solid grey;
+}
+
+label {
+  font-size: 11px;
+}

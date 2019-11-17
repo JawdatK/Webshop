@@ -1,0 +1,10 @@
+<div class="spacer">
+	<form>
+		<div class="search-container">
+			<input type="text" placeholder="Search for products..." required [(ngModel)]="searchText" name="search">
+			<button type="submit" routerLink="search/{{searchText}}">
+				<i class="fa fa-search fa-2x"></i>
+			</button>
+		</div>
+	</form>
+</div>

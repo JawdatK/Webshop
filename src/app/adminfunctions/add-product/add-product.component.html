@@ -1,0 +1,90 @@
+<div *ngIf="user && user.admin" align="center">
+  <div class="add">
+    <table>
+      <tr>
+        <th>
+          <h2>Add a new Product</h2>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          Title of Product
+        </td>
+        <td>
+          <input type="text" autofocus required minlength="4" [(ngModel)]="name" name="n">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Select Main Category
+        </td>
+        <td>
+          <select required [(ngModel)]="catId" (change)="unsetSubCatId()" name="cat">
+            <option *ngFor="let cat of categories | async" [value]="cat.id">{{cat.name}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Select Sub-Category
+        </td>
+        <td>
+          <select required [(ngModel)]="subCatId" name="sub" [disabled]="catId == null">
+            <ng-container *ngFor="let sub of subCategories | async">
+              <option *ngIf="sub.parentId == catId" [value]="sub.uid">{{sub.name}}</option>
+            </ng-container>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Description
+        </td>
+        <td>
+          <textarea required [(ngModel)]="description" name="desc"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Quantity in stock
+        </td>
+        <td>
+          <input type="number" required min="0" oninput="validity.valid||(value='');" [(ngModel)]="quantity" name="q">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Price (SEK)
+        </td>
+        <td>
+          <input type="number" required min="0" oninput="validity.valid||(value='');" [(ngModel)]="price" name="p">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          File
+        </td>
+        <td>
+          <input type="file" required (change)="selectFile($event)" [(ngModel)]="file" name="f">
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div *ngIf="currentFileUpload" class="progress">
+            <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{progress.percentage}}" aria-valuemin="0" aria-valuemax="100"
+              [ngStyle]="{width:progress.percentage+'%'}">
+              {{progress.percentage}}%
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <button type="submit" (click)="newProduct()">Add new Product</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

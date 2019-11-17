@@ -1,0 +1,205 @@
+<div *ngIf="user else showLogin">
+  <div *ngIf="!user.admin else showAdmin" align="center">
+
+    <div *ngIf="!showCreate">
+      <button (click)="showCreate = true">Add an address</button>
+      <br><br>
+      <hr width="450px">
+    </div>
+    <!-- New address -->
+    <div class="add" *ngIf="showCreate">
+      <table>
+        <tr>
+          <th>
+            <h2>New address</h2>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            First name
+          </td>
+          <td>
+            <input type="text" autofocus required minlength="3" [(ngModel)]="newFirstName" name="firstname">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Last name
+          </td>
+          <td>
+            <input type="text" required minlength="3" [(ngModel)]="newLastName" name="lastname">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Street
+          </td>
+          <td>
+            <input type="text" required minlength="4" [(ngModel)]="newStreet" name="street">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Zip Code
+          </td>
+          <td>
+            <input type="number" required minlength="3" oninput="validity.valid||(value='');" [(ngModel)]="newZipCode" name="zipcode">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            City
+          </td>
+          <td>
+            <input type="text" required minlength="2" [(ngModel)]="newCity" name="city">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Phone number
+          </td>
+          <td>
+            <input type="string" minlength="5" [(ngModel)]="newPhone" name="phonenr">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Set this address as default
+          </td>
+          <td>
+            <input type="checkbox" id="myCheck" [(ngModel)]="setAsDefault" name="default">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button (click)="createAddress()">Save</button>
+            <button (click)="clearNewInputs(); showCreate = false">Cancel</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Saved addresses</h2>
+
+    <!-- Show saved addresses -->
+    <div *ngIf="addresses && addresses.length else showNoAddresses">
+      <div *ngFor="let address of addresses">
+        
+        <!-- In text form -->
+        <label for="addresses" *ngIf="address.id == user.defaultId">Default address</label>
+        <table class="addresses" name="addresses" *ngIf="showEdit != address.id" [class.default-address]="address.id == user.defaultId">
+          <tr>
+            <td>
+              {{address.firstName}} {{address.lastName}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{address.street}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{address.zip}} {{address.city}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="icon" (click)="showEdit = address.id"><i class="fa fa-edit"></i></button>
+              <button class="icon" (click)="deleteAddress(address.id)"><i class="fa fa-remove"></i></button>
+            </td>
+          </tr>
+        </table>
+        
+        <!-- In edit mode -->
+        <div class="edit" *ngIf="showEdit == address.id">
+          <table>
+            <tr>
+              <th>
+                <h2>Edit address</h2>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                First name
+              </td>
+              <td>
+                <input type="text" autofocus required minlength="3" [ngModel]="address.firstName" #fn name="firstname">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Last name
+              </td>
+              <td>
+                <input type="text" required minlength="3" [ngModel]="address.lastName" #ln name="lastname">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Street
+              </td>
+              <td>
+                <input type="text" required minlength="4" [ngModel]="address.street" #street name="street">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Zip Code
+              </td>
+              <td>
+                <input type="number" required minlength="3" oninput="validity.valid||(value='');" [ngModel]="address.zip" #zip name="zipcode">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                City
+              </td>
+              <td>
+                <input type="text" required minlength="2" [ngModel]="address.city" #city name="city">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Phone number
+              </td>
+              <td>
+                <input type="string" class="optional" minlength="5" [ngModel]="address.phone" #phone name="phonenr">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Set as default
+              </td>
+              <td>
+                <input type="checkbox" id="myCheck" [checked]="user.defaultId == address.id" [disabled]="user.defaultId == address.id" #def
+                  name="default">
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <button (click)="editAddress(address.id, fn.value, ln.value, street.value, city.value, zip.value, phone.value, def.checked)">Save</button>
+                <button (click)="showEdit = -1">Cancel</button>
+                <button (click)="deleteAddress(address.id)">Delete</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #showLogin>
+  <p>Log in to view your profile!</p>
+</ng-template>
+
+<ng-template #showAdmin>
+  <p>Log in on a regular account to view your profile!</p>
+</ng-template>
+
+<ng-template #showNoAddresses>
+  <p>You don't have any addresses saved</p>
+</ng-template>

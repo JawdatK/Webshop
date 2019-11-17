@@ -1,0 +1,53 @@
+<div *ngIf="currentSubCat && paginatedProducts else showNotExists">
+  <div class="path">
+    <h2>{{ currentCatName }} &nbsp; &gt; &nbsp; {{currentSubCat.name}}</h2>
+    <h3>showing {{productsPerPage * (currentPage)}} to {{productsPerPage * (currentPage) + paginatedProducts.length}} of a total
+      of {{allProducts.length}} results</h3>
+  </div>
+  <section class="products" *ngIf="paginatedProducts.length">
+    <div class="product-card" *ngFor="let product of paginatedProducts">
+      <div class="product-image" *ngIf="product.fileUrl && product.isImage else showGenericImg">
+        <a [routerLink]="['/product-details/' + product.id]">
+          <img src="{{product.fileUrl}}">
+        </a>
+      </div>
+      <ng-template #showGenericImg class="product-image">
+        <div class="product-image">
+          <a [routerLink]="['/product-details/' + product.id]">
+            <img src="https://firebasestorage.googleapis.com/v0/b/dv508-team-3.appspot.com/o/icons%2Fno-image.jpg?alt=media&token=4f7f6a0c-e8ec-442b-91de-3999f900f811">
+          </a>
+        </div>
+      </ng-template>
+      <div class="product-info">
+        <p class="name">{{product.name}}</p>
+        <div class="price">
+          <div [class.deal-regular-price]="product.deal">{{product.price}} SEK</div>
+          <div *ngIf="product.deal" class="deal-price">{{product.dprice}} SEK</div>
+        </div>
+        <div *ngIf="currentUser && !currentUser.admin">
+          <div *ngIf="product.quantity > 0 else showOutOfStock">
+            <button (click)="afService.addToBasket(product.id, 1)"><i class="fa fa-cart-plus cart"></i> Add to basket</button>
+          </div>
+          <ng-template #showOutOfStock>
+            <button disabled>Out of stock</button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="center" *ngIf="allProducts && allProducts.length > productsPerPage">
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage == 0">&laquo;</button>
+      <a>{{currentPage + 1}}</a>
+      <button (click)="nextPage()" [disabled]="noMorePagesExists()">&raquo;</button>
+    </div>
+    <br>
+    <span class="productsPerPage">
+      showing {{productsPerPage}} results per page
+    </span>
+  </div>
+</div>
+
+<ng-template #showNotExists>
+  Four, oh four: Page not found
+</ng-template>

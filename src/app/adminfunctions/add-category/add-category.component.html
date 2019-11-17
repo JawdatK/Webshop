@@ -1,0 +1,29 @@
+<div *ngIf="user && user.admin" align="center">
+  <div class="add">
+    <table>
+      <tr>
+        <th>
+          <h2>Add Sub-Category</h2>
+        </th>
+      </tr><tr>
+        <td>
+          Title of Sub Category
+        </td><td>
+          <input type="text" autofocus required minlength="4" [(ngModel)]="name" name="n">
+        </td>
+      </tr><tr>
+        <td>
+          Select Main Category
+        </td><td>
+          <select required [(ngModel)]="catId" name="cat">
+            <option *ngFor="let cat of categories | async" [value]="cat.id">{{cat.name}}</option>
+          </select>
+        </td>
+      </tr><tr>
+        <td></td><td>
+          <button type="submit" (click)="newSubCat()">Add new Sub Category</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
